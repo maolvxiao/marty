@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>定时器自己的作业</title>
+</head>
+<style type="text/css">
+	* {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+	.body {
+		width: 300px;
+		height: 300px;
+		border: 1px solid red;
+		margin: 10px auto;
+	}
+	button {
+		padding: 4px 8px;
+		margin-left: 10px;
+		margin-top: 20px;
+		border-radius: 4px;
+	}
+	button.active {
+		background-color: green;
+		color: #fff;
+	}
+	.box {
+		margin-left: 10px;
+	}
+	.box div {
+		width: 200px;
+		height: 220px;
+		border:  1px solid #ccc;
+		display: none;
+		margin-top: 5px;
+		margin-left: 10px;
+	}
+	.box div.active {
+		display: block;
+	}
+</style>
+<script type="text/javascript">
+	window.onload = function () {
+		var abtns = document.getElementsByTagName('button');
+		var adivs = document.getElementById('box').children;
+		// 当鼠标移入移出时的变量 obody
+		var obody = document.getElementById('body')
+
+		var n = 0
+
+		//先做一个单纯的点击事件的效果
+		for(var a = 0; a < abtns.length; a++) {
+			abtns[a].index = a
+			abtns[a].onclick = function () {
+				for(var a = 0; a < abtns.length; a++) {
+					abtns[a].className = ''
+			 		adivs[a].className = ''
+				}
+				this.className = 'active'
+				adivs[this.index].className = 'active'
+			}
+		}
+		//再做一个函数，里面对abtns和adivs做for循环的效果
+		//其中，需要设置一个变量n，记录当前谁是active状态
+		function bodychange () {
+			//当n 	!= 0 的时候，做for循环的动态效果 
+			n = n + 1 
+			for(var a = 0; a < abtns.length; a++) {
+				abtns[a].className = ''
+			 	adivs[a].className = ''
+			}
+			//如果 n 当前等于3的时候，n要变为0，显示第一个btn的状态
+			if (n == abtns.length){
+				n = 0 //对应最上面的变量
+			}
+			abtns[n].className = 'active'
+			adivs[n].className = 'active'
+		}
+
+		var t = setInterval(bodychange, 1000)
+
+		obody.onmouseover = function() {
+			clearInterval(t)
+		}
+		obody.onmouseout = function() {
+			t = setInterval(bodychange, 1000)
+		}
+	}
+</script>
+<body>
+	<div class="body" id="body">
+		<button class="active btn1">新闻</button>
+		<button>热点</button>
+		<button>娱乐</button>
+
+		<div class="box" id="box">
+			<div class="active">我是新闻</div>
+			<div>我是热点</div>
+			<div>我是娱乐</div>
+		</div>
+		
+	</div>
+</body>
+</html>
